@@ -62,6 +62,8 @@ python install.py codex /path/to/project
 
 Codex의 수동 실행 정책은 각 스킬의 `agents/openai.yaml`에 있습니다. Claude의 `disable-model-invocation`은 설치 시 추가합니다. 다음 단계는 두 도구 모두 사람이 직접 호출합니다.
 
+Codex의 ③ 구현은 Orca 없이 내장 서브에이전트에 작업을 위임합니다. 스토리 1개 안에서 구현 담당 최대 2개가 파일과 공유 자원을 나누어 작업하고, 구현 종료 후 별도 에이전트가 검토합니다. 주 에이전트가 지적 사항 해결과 전체 테스트·lint를 확인한 뒤 상태를 기록합니다. 분할하기 어려우면 순차 위임하고, 서브에이전트 기능을 사용할 수 없으면 알린 뒤 단독으로 진행합니다. 병렬 실행은 토큰 사용량이 늘어납니다.
+
 ## 3. 사용 순서
 
 아래는 Claude Code 표기입니다. Codex에서는 `/` 대신 `$`로 호출합니다. 예: `$lite-0-current`, `$lite-1-requirements 회원 목록에 검색 추가`, `$lite-3-build US-01`. 인자는 호출 뒤의 사용자 메시지에서 읽습니다.
