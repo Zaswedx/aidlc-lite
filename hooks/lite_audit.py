@@ -1,6 +1,6 @@
 """UserPromptSubmit hook: 사용자 입력 원문을 aidlc-docs/audit.md 에 자동 기록 (AI-DLC Lite).
 
-기록 조건: aidlc-docs/state.md 가 있거나, 입력에 /lite 스킬 호출이 있을 때
+기록 조건: aidlc-docs/state.md 가 있거나, 입력에 /lite 또는 $lite 스킬 호출이 있을 때
 실패해도 입력을 막지 않음 (항상 exit 0), 표준 라이브러리만 사용
 """
 
@@ -13,7 +13,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 
-TRIGGER = re.compile(r"/lite\b|ai-?dlc", re.I)
+TRIGGER = re.compile(r"(?<![\w/])[/$]lite\b|ai-?dlc", re.I)
 HEADER = "# AI-DLC Lite Audit Log\n\n"
 FIELD = re.compile(r"\*\*Current Step\*\*:\s*(.+)")
 
@@ -27,7 +27,7 @@ def read_input() -> dict:
 
 
 def project_dir(data: dict) -> Path:
-    return Path(os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or ".")
+    return Path(os.environ.get("AIDLC_PROJECT_DIR") or os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or ".")
 
 
 def current_step(docs: Path) -> str:
@@ -65,7 +65,7 @@ def main() -> None:
     msg = (
         f"[aidlc-lite hook] 사용자 입력이 aidlc-docs/audit.md 에 기록됨 (Timestamp: {ts}). "
         f"audit 항목을 쓸 때 `**User Input**: (hook 기록 {ts})` 로 대신하고, "
-        f"Timestamp 는 추측하지 말고 {ts} 사용.\n"
+        "단계 기록 시각은 현재 UTC 시각을 조회해 사용.\n"
     )
     sys.stdout.buffer.write(msg.encode("utf-8"))
 

@@ -1,12 +1,11 @@
 ---
 name: lite-0-current
-description: AI-DLC Lite ⓪ 현황 파악. 기존 웹 사이트 코드 · DB 스키마 · 테스트 현황을 1~2페이지로 정리하고 state.md 를 만든다. 사용자가 /lite-0-current 로 직접 호출할 때만 사용.
-disable-model-invocation: true
+description: AI-DLC Lite ⓪ 현황 파악. 기존 웹 사이트 코드 · DB 스키마 · 테스트 현황을 1~2페이지로 정리하고 state.md 를 만든다. 사용자가 lite-0-current 로 직접 호출할 때만 사용.
 ---
 
 # /lite-0-current — ⓪ 현황 파악
 
-- 공통 규칙: `.claude/skills/lite/rules.md` 를 먼저 읽고 따름
+- 공통 규칙: [공통 규칙](../lite/rules.md) (이 SKILL.md 기준 상대 경로) 를 먼저 읽고 따름
 - 원래 AI-DLC 의 Workspace Detection + Reverse Engineering 을 압축한 단계
 - 산출물: `aidlc-docs/current-state.md`, `aidlc-docs/state.md` (없으면 생성)
 - 승인 게이트 없음 (보고 후 ① 안내)

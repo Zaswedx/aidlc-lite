@@ -45,7 +45,7 @@ def last_audit_heading(docs: Path) -> str:
 
 def main() -> None:
     data = read_input()
-    docs = Path(os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or ".") / "aidlc-docs"
+    docs = Path(os.environ.get("AIDLC_PROJECT_DIR") or os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or ".") / "aidlc-docs"
     state = docs / "state.md"
     if not state.is_file():
         return
@@ -62,8 +62,8 @@ def main() -> None:
     if last:
         lines.append(f"- audit.md 마지막 항목: {last}")
     lines.append(
-        "- 이어서 진행: state.md · audit.md 를 읽고 .claude/skills/lite/rules.md 규칙대로 재개 "
-        "(승인 대기 중이면 승인 전 다음 단계 금지). 사용자는 `/lite` 로 상태 확인"
+        "- 이어서 진행: state.md · audit.md 와 설치된 lite 스킬의 rules.md 를 읽고 재개 "
+        "(승인 대기 중이면 승인 전 다음 단계 금지). Claude Code: `/lite`, Codex: `$lite` 로 상태 확인"
     )
     sys.stdout.buffer.write(("\n".join(lines) + "\n").encode("utf-8"))
 

@@ -1,12 +1,11 @@
 ---
 name: lite-4-verify
-description: AI-DLC Lite ④ 검증. 전체 빌드 · 테스트 (회귀 포함) · 브라우저 확인을 하고 스토리 ↔ 테스트 ↔ 화면 추적표를 verification.md 에 작성한 뒤 최종 승인을 받는다. 사용자가 /lite-4-verify 로 직접 호출할 때만 사용.
-disable-model-invocation: true
+description: AI-DLC Lite ④ 검증. 전체 빌드 · 테스트 (회귀 포함) · 브라우저 확인을 하고 스토리 ↔ 테스트 ↔ 화면 추적표를 verification.md 에 작성한 뒤 최종 승인을 받는다. 사용자가 lite-4-verify 로 직접 호출할 때만 사용.
 ---
 
 # /lite-4-verify — ④ 검증
 
-- 공통 규칙: `.claude/skills/lite/rules.md` 를 먼저 읽고 따름
+- 공통 규칙: [공통 규칙](../lite/rules.md) (이 SKILL.md 기준 상대 경로) 를 먼저 읽고 따름
 - 원래 AI-DLC 의 Build and Test + 추적성 점검 ①② 를 압축한 단계 (배포가 있으면 배포 체크리스트 포함)
 - 입력: `requirements.md`, `design.md`, `data-rules.md`, `current-state.md` (기준선), 코드 · 테스트
 - 산출물: `aidlc-docs/verification.md`

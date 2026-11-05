@@ -1,15 +1,13 @@
 ---
 name: lite-1-requirements
-description: AI-DLC Lite ① 요구 + 스토리. 질문 5개 이내로 범위를 정하고 스토리 · 수용 기준 표를 requirements.md 에 작성한 뒤 승인을 받는다. 사용자가 /lite-1-requirements 로 직접 호출할 때만 사용.
-argument-hint: "[요청 내용]"
-disable-model-invocation: true
+description: AI-DLC Lite ① 요구 + 스토리. 질문 5개 이내로 범위를 정하고 스토리 · 수용 기준 표를 requirements.md 에 작성한 뒤 승인을 받는다. 사용자가 lite-1-requirements 로 직접 호출할 때만 사용.
 ---
 
 # /lite-1-requirements — ① 요구 + 스토리
 
-- 공통 규칙: `.claude/skills/lite/rules.md` 를 먼저 읽고 따름
+- 공통 규칙: [공통 규칙](../lite/rules.md) (이 SKILL.md 기준 상대 경로) 를 먼저 읽고 따름
 - 원래 AI-DLC 의 Requirements Analysis + User Stories 를 압축한 단계
-- 입력: 사용자 요청 (`$ARGUMENTS` 또는 대화), `aidlc-docs/current-state.md`
+- 입력: 사용자 요청 (`호출 뒤에 사용자가 적은 내용` 또는 대화), `aidlc-docs/current-state.md`
 - 산출물: `aidlc-docs/requirements.md`
 - ✅ 승인 1
 

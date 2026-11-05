@@ -1,12 +1,11 @@
 ---
 name: lite-2-design
-description: AI-DLC Lite ② 설계. 승인된 스토리로 화면 설계 (design.md) 와 데이터 · 규칙 설계 (data-rules.md) 를 작성하고, 구현 순서를 state.md 에 넣은 뒤 승인을 받는다. 사용자가 /lite-2-design 로 직접 호출할 때만 사용.
-disable-model-invocation: true
+description: AI-DLC Lite ② 설계. 승인된 스토리로 화면 설계 (design.md) 와 데이터 · 규칙 설계 (data-rules.md) 를 작성하고, 구현 순서를 state.md 에 넣은 뒤 승인을 받는다. 사용자가 lite-2-design 로 직접 호출할 때만 사용.
 ---
 
 # /lite-2-design — ② 설계
 
-- 공통 규칙: `.claude/skills/lite/rules.md` 를 먼저 읽고 따름
+- 공통 규칙: [공통 규칙](../lite/rules.md) (이 SKILL.md 기준 상대 경로) 를 먼저 읽고 따름
 - 원래 AI-DLC 의 Application Design + Functional Design + NFR Requirements · Design 을 압축한 단계 (Functional Design 은 DB 가 있으므로 `data-rules.md` 로 분리)
 - 입력: `aidlc-docs/requirements.md` (승인됨), `aidlc-docs/current-state.md`
 - 산출물: `aidlc-docs/design.md`, `aidlc-docs/data-rules.md`

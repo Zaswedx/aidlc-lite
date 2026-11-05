@@ -1,15 +1,13 @@
 ---
 name: lite-3-build
-description: AI-DLC Lite ③ 구현. 스토리 1개를 승인된 설계대로 구현한다. API · DB · 검증 로직은 테스트를 먼저 쓰고 (RED → GREEN → 정리, 한 세션), 화면은 구현 후 브라우저로 확인한다. 사용자가 /lite-3-build <US-ID> 로 직접 호출할 때만 사용.
-argument-hint: "<US-ID>"
-disable-model-invocation: true
+description: AI-DLC Lite ③ 구현. 스토리 1개를 승인된 설계대로 구현한다. API · DB · 검증 로직은 테스트를 먼저 쓰고 (RED → GREEN → 정리, 한 세션), 화면은 구현 후 브라우저로 확인한다. 사용자가 lite-3-build 로 직접 호출할 때만 사용.
 ---
 
 # /lite-3-build — ③ 구현 (스토리 1개)
 
-- 공통 규칙: `.claude/skills/lite/rules.md` 를 먼저 읽고 따름
+- 공통 규칙: [공통 규칙](../lite/rules.md) (이 SKILL.md 기준 상대 경로) 를 먼저 읽고 따름
 - 원래 AI-DLC 의 Code Generation 을 압축한 단계 (TDD 3세션 → 로직만 테스트 먼저, 한 세션)
-- 인자: 스토리 ID (`$ARGUMENTS`, 예 `US-01`). 없으면 state.md 의 첫 미완료 스토리를 제안하고 확인
+- 인자: 스토리 ID (`호출 뒤에 사용자가 적은 내용`, 예 `US-01`). 없으면 state.md 의 첫 미완료 스토리를 제안하고 확인
 - 입력: `requirements.md` (해당 스토리 · AC), `design.md`, `data-rules.md` (승인됨)
 - 산출물: 코드 · 테스트 (프로젝트 기존 위치 · 컨벤션 따름)
 

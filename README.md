@@ -1,5 +1,7 @@
 # AI-DLC Lite
 
+Claude Code와 Codex에서 사용하는 공통 스킬입니다.
+
 기존 코드와 DB가 있는 **간단한 웹 사이트**용으로 AI-DLC를 줄인 버전입니다.
 원래 AI-DLC의 20개 stage를 **5단계와 승인 게이트 3개**로 압축했습니다.
 
@@ -29,16 +31,40 @@ git clone https://github.com/Zaswedx/aidlc-lite.git
 cd aidlc-lite
 ```
 
-1. 이 폴더의 `.claude/skills/` 와 `.claude/hooks/` 를 대상 프로젝트의 `.claude/` 아래로 복사
-2. `.claude/settings.json`
-   - 대상 프로젝트에 없으면 그대로 복사
-   - 이미 있으면 `hooks` 의 `UserPromptSubmit` · `SessionStart` 항목만 병합
-3. `AGENTS-snippet.md` 내용을 대상 프로젝트의 `AGENTS.md` (또는 `CLAUDE.md`) 끝에 붙여 넣기
-4. Claude Code를 대상 프로젝트에서 새로 시작 (hook · 스킬 인식)
+조건: Git 저장소인 대상 프로젝트, `python` 명령으로 Python 3.8 이상 실행 가능, POSIX 셸 (Linux/macOS 또는 Git Bash). 훅을 지원하는 최신 Codex를 사용하세요.
 
-조건: `python` 명령으로 Python 3.8 이상 실행 가능 (hook은 표준 라이브러리만 사용)
+### Claude Code
+
+```sh
+python install.py claude /path/to/project
+```
+
+### Codex
+
+```sh
+python install.py codex /path/to/project
+```
+
+두 도구를 함께 쓰면 같은 대상에 두 명령을 모두 실행하세요. 대상 프로젝트의 하위 폴더를 지정해도 Git 루트에 설치됩니다.
+
+| 구성 | 공통 원본 | Claude Code 설치 위치 | Codex 설치 위치 |
+| --- | --- | --- | --- |
+| 스킬 6개 · 규칙 | `skills/` | `.claude/skills/` | `.agents/skills/` |
+| Python 훅 2개 | `hooks/` | `.aidlc-lite/hooks/` | `.aidlc-lite/hooks/` |
+| 도구별 설정 | `config/claude.json`, `config/codex.json` | `.claude/settings.json` | `.codex/hooks.json` |
+
+설치기는 같은 이름의 Lite 스킬과 공통 훅을 갱신하고, 기존 설정의 다른 항목과 다른 훅은 보존합니다. 반복 설치해도 동일 훅을 중복 추가하지 않습니다. 이전 버전의 기본 Claude 훅 설정도 새 경로로 전환합니다. 직접 수정한 Lite 파일은 설치 전에 백업하세요.
+
+1. `AGENTS-snippet.md` 내용을 대상 프로젝트의 `AGENTS.md` (Claude만 쓰면 `CLAUDE.md`도 가능) 끝에 한 번 붙여 넣기
+2. 대상 프로젝트의 `.gitignore`에 `aidlc-docs/` 추가 (원문 입력 로그 공개 방지)
+3. 에이전트를 대상 프로젝트에서 새로 시작
+4. Codex는 프로젝트를 신뢰한 뒤 `/hooks`에서 설치된 훅을 검토·신뢰해야 자동 기록과 세션 복원이 동작
+
+Codex의 수동 실행 정책은 각 스킬의 `agents/openai.yaml`에 있습니다. Claude의 `disable-model-invocation`은 설치 시 추가합니다. 다음 단계는 두 도구 모두 사람이 직접 호출합니다.
 
 ## 3. 사용 순서
+
+아래는 Claude Code 표기입니다. Codex에서는 `/` 대신 `$`로 호출합니다. 예: `$lite-0-current`, `$lite-1-requirements 회원 목록에 검색 추가`, `$lite-3-build US-01`. 인자는 호출 뒤의 사용자 메시지에서 읽습니다.
 
 ```text
 /lite-0-current                         # 기존 코드 · DB · 테스트 기준선 파악
@@ -54,8 +80,8 @@ cd aidlc-lite
 
 | hook | 시점 | 하는 일 |
 | --- | --- | --- |
-| `lite_audit.py` | 사용자 입력마다 | `aidlc-docs/state.md` 가 있거나 `/lite` 호출이면 입력 원문을 `audit.md` 에 기록 |
-| `lite_session.py` | 세션 시작 · 재개 · 압축 | 현재 단계 · 진행 수 · audit 마지막 항목을 Claude에게 알려 이어서 진행 |
+| `lite_audit.py` | 사용자 입력마다 | `aidlc-docs/state.md` 가 있거나 `/lite` 또는 `$lite` 호출이면 입력 원문을 `audit.md` 에 기록 |
+| `lite_session.py` | 세션 시작 · 재개 · 압축 | 현재 단계 · 진행 수 · audit 마지막 항목을 에이전트에게 알려 이어서 진행 |
 
 `lite_audit.py`는 사용자 입력 원문을 로컬 `aidlc-docs/audit.md`에 저장합니다. 비밀번호·토큰 등 민감한 정보를 입력하지 말고, 대상 프로젝트에서도 이 로그를 공개 저장소에 커밋하지 않도록 주의하세요.
 
@@ -71,4 +97,15 @@ cd aidlc-lite
 | 설계 문서 | Unit마다 FD · NFR Req · NFR Design · Infra | 프로젝트당 `design.md` + `data-rules.md` |
 | TDD | red · green · refactor 3개 스킬, 세션 분리 | 로직만 테스트 먼저, 한 세션 |
 | 추적성 점검 | 2회 (서브에이전트) | ④에서 추적표 1회 |
-| 규칙 원본 | `.aidlc-rule-details/` | `.claude/skills/lite/rules.md` 한 파일 |
+| 규칙 원본 | `.aidlc-rule-details/` | `skills/lite/rules.md` 한 파일 |
+
+## 6. 검증 · 참고
+
+```sh
+python -m unittest discover -s tests -v
+```
+
+설치 설정 병합·재설치·이전 Claude 설정 이전, 양쪽 호출의 감사 로그, 하위 폴더에서 실행한 훅의 저장 위치와 세션 복원을 검사합니다. 실제 에이전트 세션에서 설치 후 스킬과 훅 인식을 확인하세요.
+
+- [Codex 스킬 탐색 · 호출 · 정책](https://developers.openai.com/codex/skills)
+- [Codex 훅 설정 · 신뢰](https://learn.chatgpt.com/docs/hooks)

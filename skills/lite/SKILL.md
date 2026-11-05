@@ -1,13 +1,11 @@
 ---
 name: lite
-description: AI-DLC Lite 진행 상태 보기와 다음 단계 안내. 인자 없이 = 상태 보기, 단계 번호 (0~4) 를 주면 해당 단계 스킬 안내. 사용자가 /lite 로 직접 호출할 때만 사용.
-argument-hint: "[status | 0 | 1 | 2 | 3 <US-ID> | 4]"
-disable-model-invocation: true
+description: AI-DLC Lite 진행 상태 보기와 다음 단계 안내. 인자 없이 = 상태 보기, 단계 번호 (0~4) 를 주면 해당 단계 스킬 안내. 사용자가 lite 로 직접 호출할 때만 사용.
 ---
 
 # /lite — AI-DLC Lite 상태 보기
 
-- 인자: `$ARGUMENTS`
+- 인자: `호출 뒤에 사용자가 적은 내용`
 - 공통 규칙 = [rules.md](rules.md)
 
 ## 흐름

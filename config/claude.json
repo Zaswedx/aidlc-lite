@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "AIDLC_PROJECT_DIR=\"$(git rev-parse --show-toplevel)\" python \"$(git rev-parse --show-toplevel)/.aidlc-lite/hooks/lite_audit.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "AIDLC_PROJECT_DIR=\"$(git rev-parse --show-toplevel)\" python \"$(git rev-parse --show-toplevel)/.aidlc-lite/hooks/lite_session.py\"",
+            "timeout": 10
+          }
+        ],
+        "matcher": "startup|resume|clear|compact"
+      }
+    ]
+  }
+}
